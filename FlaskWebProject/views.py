@@ -25,17 +25,7 @@ def home():
         'index.html',
         title='Home Page',
         posts=posts
-    #log = request.values.get('log_button')    
-   #if log:
-    # if log == 'info':
-     # app.logger.info('No issue.')
-     #elif log == 'warning':
-      # app.logger.warning('Warning occurred.')
-     #elif log == 'error':
-      #  app.logger.error('Error occurred.')
-     #elif log == 'critical':
-      #app.logger.critical('Critical error occurred.')     
-    )
+       )
 
 @app.route('/new_post', methods=['GET', 'POST'])
 @login_required
@@ -77,11 +67,13 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
+            app.logger.warning('Invalid login attempt')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('home')
+            app.logger.warning('admin logged in successfully')
         return redirect(next_page)
     session["state"] = str(uuid.uuid4())
     auth_url = _build_auth_url(scopes=Config.SCOPE, state=session["state"])
