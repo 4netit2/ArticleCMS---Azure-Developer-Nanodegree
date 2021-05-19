@@ -25,6 +25,7 @@ def home():
         'index.html',
         title='Home Page',
         posts=posts
+    log = request.values.get('log_button')    
    if log:
      if log == 'info':
          app.logger.info('No issue.')
