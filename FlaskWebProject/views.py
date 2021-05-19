@@ -25,6 +25,15 @@ def home():
         'index.html',
         title='Home Page',
         posts=posts
+   if log:
+     if log == 'info':
+         app.logger.info('No issue.')
+     elif log == 'warning':
+         app.logger.warning('Warning occurred.')
+     elif log == 'error':
+         app.logger.error('Error occurred.')
+     elif log == 'critical':
+         app.logger.critical('Critical error occurred.')     
     )
 
 @app.route('/new_post', methods=['GET', 'POST'])
